@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">TodoApp</string>
+    <string name="additem_text">AddItem</string>
+    <string name="newitem_hint_text">Enter new item...</string>
+    <string name="edit_item_label">Edit Item Below:</string>
+    <string name="btn_save_item_label">Save</string>
+    <string name="title_activity_edit_item_extended">Edit Item</string>
+    <string name="tv_task_name_label">Task Name</string>
+    <string name="tf_task_name_label">Enter task name...</string>
+    <string name="tv_due_date_label">Due Date</string>
+    <string name="et_task_notes_label">Task Notes</string>
+    <string name="tv_task_notes_label">Task Notes</string>
+</resources>

@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 
+/**
+ * Created by Shrikant Pandhare on 1/16/16.
+ */
 public class EditItemActivity extends AppCompatActivity {
 
     private EditText etEditItem;

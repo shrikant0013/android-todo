@@ -1,5 +1,6 @@
 package com.shrikant.todoapp;
 
+import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by spandhare on 11/26/15.
+ * Created by Shrikant Pandhare on 11/26/15.
  */
 @Table(name = "Items")
 public class Item extends Model {
@@ -45,6 +46,7 @@ public class Item extends Model {
 
     public static List<Item> getAll() {
         // This is how you execute a query
+
         return new Select()
                 .from(Item.class)
                 .execute();
@@ -66,10 +68,36 @@ public class Item extends Model {
 
     public static void deleteItem(int position) {
         new Delete().from(Item.class).where("position = ?", position).execute();
+        adjustPositions(position);
     }
 
     public static void deleteAllItems() {
         new Delete().from(Item.class).execute();
     }
 
+    public static void saveAllItems(List<Item> items) {
+        ActiveAndroid.beginTransaction();
+        try {
+            for (Item i : items) {
+                Item item = i;
+                item.save();
+            }
+            ActiveAndroid.setTransactionSuccessful();
+        }
+        finally {
+            ActiveAndroid.endTransaction();
+        }
+    }
+
+    private static void adjustPositions(int position) {
+        List<Item> items = new Select()
+                    .from(Item.class)
+                    .where("position > ?", position)
+                    .execute();
+
+        for (Item i : items) {
+            i.position = position++;
+            i.save();
+        }
+    }
 }

@@ -6,17 +6,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import java.util.List;
+import java.util.ArrayList;
 
+/**
+ * Created by Shrikant Pandhare on 1/16/16.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private EditText etNewItem;
-    private List<String> items;
-    private ArrayAdapter<String> itemsAdaptor;
+    private ArrayList<Item> items;
+    private ItemsAdapter itemsAdapter;
     private ListView lvItems;
     private int editItemPosition;
     private final int REQUEST_CODE = 20;
@@ -30,15 +32,17 @@ public class MainActivity extends AppCompatActivity {
         lvItems = (ListView) findViewById(R.id.lvItems);
         readItemsFromDB();
 
-        itemsAdaptor = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
-        lvItems.setAdapter(itemsAdaptor);
+        itemsAdapter = new ItemsAdapter(this, items);
+        // Attach the adapter to a ListView
+        lvItems.setAdapter(itemsAdapter);
+
 
         lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 items.remove(position);
-                itemsAdaptor.notifyDataSetChanged();
-                deleteItemFromDB();
+                itemsAdapter.notifyDataSetChanged();
+                deleteItemFromDB(position);
                 return true;
             }
         });
@@ -57,33 +61,31 @@ public class MainActivity extends AppCompatActivity {
         // first parameter is the context, second is the class of the activity to launch
         Intent i = new Intent(this, EditItemActivity.class);
         //Intent i = new Intent(this, EditItemExtended.class);
-        i.putExtra("ItemText", items.get(position));
+        //i.putExtra("ItemText", strItems.get(position));
+        i.putExtra("ItemText", items.get(position).name);
         startActivityForResult(i, REQUEST_CODE); // brings up the second activity
     }
 
     private void readItemsFromDB() {
-        items = Item.getAllNames();
+        items =  (ArrayList)Item.getAll();
     }
 
     private void writeAllItemsToDB() {
-        int pos = 0;
-        for (String i : items) {
-            Item item = new Item();
-            item.name = i;
-            item.position = pos++;
-            item.save();
-        }
+        Item.saveAllItems(items);
     }
 
-    private void deleteItemFromDB() {
-        Item.deleteAllItems();
-        writeAllItemsToDB();
+    private void deleteItemFromDB(int position) {
+        Item.deleteItem(position);
     }
 
     public void addNewItem(View view) {
-        itemsAdaptor.add(etNewItem.getText().toString());
+        Item newItem = new Item();
+        newItem.name = etNewItem.getText().toString();
+        newItem.position = items.size();
+        newItem.save();
+
+        itemsAdapter.add(newItem);
         etNewItem.setText("");
-        writeAllItemsToDB();
     }
 
     // ActivityOne.java, time to handle the result of the sub-activity
@@ -94,9 +96,11 @@ public class MainActivity extends AppCompatActivity {
             // Extract name value from result extras
             String text = data.getExtras().getString("ItemText");
             Log.i("POSITION", "** editItemPosition: " + editItemPosition);
-            items.set(editItemPosition, text);
-            itemsAdaptor.notifyDataSetChanged();
-            writeAllItemsToDB();
+
+            Item i = items.get(editItemPosition);
+            i.name = text;
+            i.save();
+            itemsAdapter.notifyDataSetChanged();
         }
     }
 }

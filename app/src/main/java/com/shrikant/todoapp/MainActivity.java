@@ -10,11 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import org.apache.commons.io.FileUtils;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,7 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
         etNewItem = (EditText) findViewById(R.id.etNewItem);
         lvItems = (ListView) findViewById(R.id.lvItems);
-        readItems();
+        //readItems();
+        readItemsFromDB();
 
         itemsAdaptor = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
         lvItems.setAdapter(itemsAdaptor);
@@ -43,7 +39,9 @@ public class MainActivity extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 items.remove(position);
                 itemsAdaptor.notifyDataSetChanged();
-                writeItems();
+                //writeItems();
+                //writeItemsAllItemsToDB();
+                deleteItemFromDB();
                 return true;
             }
         });
@@ -52,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 editItemPosition = position;
+                //writeToDB(position);
                 launchEditItem(position);
             }
         });
@@ -66,41 +65,69 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(i, REQUEST_CODE); // brings up the second activity
     }
 
-    private void readItems() {
-        File filesDir = getFilesDir();
-        File todoFile = new File(filesDir, "todo.txt" );
+//    private void readItems() {
+//        File filesDir = getFilesDir();
+//        File todoFile = new File(filesDir, "todo.txt" );
+//
+//        try {
+//            items = new ArrayList<>(FileUtils.readLines(todoFile));
+//        } catch (IOException e) {
+//            items = new ArrayList<>();
+//        }
+//    }
 
-        try {
-            items = new ArrayList<>(FileUtils.readLines(todoFile));
-        } catch (IOException e) {
-            items = new ArrayList<>();
+    private void readItemsFromDB() {
+        items = Item.getAllNames();
+    }
+
+//    private void writeItems() {
+//        File filesDir = getFilesDir();
+//        File todoFile = new File(filesDir, "todo.txt" );
+//        try {
+//            FileUtils.writeLines(todoFile, items);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+    private void writeItemsAllItemsToDB() {
+        int pos = 0;
+        for (String i : items) {
+            Item item = new Item();
+            item.name = i;
+            item.position = pos++;
+//            item.notes = "Some memo";
+//            item.priority = "High";
+//            item.status = "open";
+            item.save();
         }
     }
 
-    private void writeItems() {
-        File filesDir = getFilesDir();
-        File todoFile = new File(filesDir, "todo.txt" );
-        try {
-            FileUtils.writeLines(todoFile, items);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void deleteItemFromDB() {
+        Item.deleteAllItems();
+        writeItemsAllItemsToDB();
     }
 
-    private void writeToDB(String taskName) {
-
-        Item item = new Item();
-        item.name = taskName;
-
-        item.save();
-    }
+//    private void writeToDB(int taskPosition) {
+//
+//        Item item = new Item();
+//        item.name = items.get(taskPosition);
+//
+//        item.position = taskPosition;
+//        item.notes = "Some memo";
+//        item.priority = "High";
+//        item.status = "open";
+//
+//        item.save();
+//    }
 
     public void addNewItem(View view) {
         itemsAdaptor.add(etNewItem.getText().toString());
         etNewItem.setText("");
-        writeItems();
+        //writeItems();
+        writeItemsAllItemsToDB();
 
-        writeToDB(etNewItem.getText().toString());
+        //writeToDB(etNewItem.getText().toString());
     }
 
     // ActivityOne.java, time to handle the result of the sub-activity
@@ -110,10 +137,11 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
             // Extract name value from result extras
             String text = data.getExtras().getString("ItemText");
-            Log.i("POSITION", "** editItemPosition: " + editItemPosition );
+            Log.i("POSITION", "** editItemPosition: " + editItemPosition);
             items.set(editItemPosition, text);
             itemsAdaptor.notifyDataSetChanged();
-            writeItems();
+            //writeItems();
+            writeItemsAllItemsToDB();
         }
     }
 }

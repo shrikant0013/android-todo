@@ -10,4 +10,7 @@
     <string name="tv_due_date_label">Due Date</string>
     <string name="et_task_notes_label">Task Notes</string>
     <string name="tv_task_notes_label">Task Notes</string>
+    <string name="duedate">Due Date</string>
+    <string name="duedatemainview">due</string>
+    <string name="itemnamemainview">item</string>
 </resources>

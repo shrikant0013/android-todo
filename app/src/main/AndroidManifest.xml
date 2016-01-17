@@ -13,7 +13,7 @@
         <!-- add the following metadata for version and database name -->
         <meta-data
             android:name="AA_DB_NAME"
-            android:value="Todo.db" />
+            android:value="Todo2.db" />
         <meta-data
             android:name="AA_DB_VERSION"
             android:value="1" />

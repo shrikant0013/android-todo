@@ -9,6 +9,8 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -63,6 +65,17 @@ public class MainActivity extends AppCompatActivity {
         //Intent i = new Intent(this, EditItemExtended.class);
         //i.putExtra("ItemText", strItems.get(position));
         i.putExtra("ItemText", items.get(position).name);
+
+
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+
+        if (items.get(position).dueDate != null) {
+            String strDueDate = df.format(items.get(position).dueDate);
+            i.putExtra("ItemDueDate", strDueDate);
+        } else {
+            i.putExtra("ItemDueDate", "null");
+        }
+
         startActivityForResult(i, REQUEST_CODE); // brings up the second activity
     }
 
@@ -82,11 +95,13 @@ public class MainActivity extends AppCompatActivity {
         Item newItem = new Item();
         newItem.name = etNewItem.getText().toString();
         newItem.position = items.size();
+        newItem.dueDate = null;
         newItem.save();
 
         itemsAdapter.add(newItem);
         etNewItem.setText("");
     }
+
 
     // ActivityOne.java, time to handle the result of the sub-activity
     @Override
@@ -95,10 +110,19 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
             // Extract name value from result extras
             String text = data.getExtras().getString("ItemText");
+            String duedate = data.getExtras().getString("ItemDueDate");
             Log.i("POSITION", "** editItemPosition: " + editItemPosition);
 
             Item i = items.get(editItemPosition);
             i.name = text;
+
+            if (data.getExtras().getString("ItemDueDate") != null &&
+                    !data.getExtras().getString("ItemDueDate").equals("null") &&
+                    !data.getExtras().getString("ItemDueDate").isEmpty()) {
+                i.dueDate = Item.setDateFromString(duedate);
+            } else {
+                i.dueDate = null;
+            }
             i.save();
             itemsAdapter.notifyDataSetChanged();
         }

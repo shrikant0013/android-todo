@@ -7,7 +7,10 @@ import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,6 +33,8 @@ public class Item extends Model {
     @Column(name = "Status")
     public String status;
 
+    @Column(name = "DueDate", index = true)
+    public Date dueDate;
 
     // Make sure to have a default constructor for every ActiveAndroid model
     public Item(){
@@ -99,5 +104,18 @@ public class Item extends Model {
             i.position = position++;
             i.save();
         }
+    }
+
+    public static Date setDateFromString(String date) {
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy/MM/dd");
+        sf.setLenient(true);
+        Date d = null;
+
+        try {
+            d = sf.parse(date);
+        } catch (ParseException e) {
+
+        }
+        return d;
     }
 }

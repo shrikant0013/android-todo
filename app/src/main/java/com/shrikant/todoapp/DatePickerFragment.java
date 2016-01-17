@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.widget.DatePicker;
-import android.widget.EditText;
 
 import java.util.Calendar;
 
@@ -30,8 +29,9 @@ public class DatePickerFragment extends DialogFragment
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
         month++;
-        EditText etDueDate = (EditText) getActivity().findViewById(R.id.etDueDate);
-        etDueDate.setText(year + "/" + month + "/" + day);
+        EditItemFragment f = (EditItemFragment) getTargetFragment();
+        f.fromDate(year + "/" + month + "/" + day);
+
         Log.i("Date Picker", "Date picker in action: " + year + "/" + month + "/" + day);
     }
 }

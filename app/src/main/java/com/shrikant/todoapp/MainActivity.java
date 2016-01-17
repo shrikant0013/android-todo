@@ -2,6 +2,7 @@ package com.shrikant.todoapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -60,23 +61,21 @@ public class MainActivity extends AppCompatActivity {
 
     // ActivityOne.java
     public void launchEditItem(int position) {
-        // first parameter is the context, second is the class of the activity to launch
-        Intent i = new Intent(this, EditItemActivity.class);
-        //Intent i = new Intent(this, EditItemExtended.class);
-        //i.putExtra("ItemText", strItems.get(position));
-        i.putExtra("ItemText", items.get(position).name);
-
-
+        String itemName = items.get(position).name;
         DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 
+        String itemDueDate = "";
         if (items.get(position).dueDate != null) {
-            String strDueDate = df.format(items.get(position).dueDate);
-            i.putExtra("ItemDueDate", strDueDate);
-        } else {
-            i.putExtra("ItemDueDate", "null");
+            itemDueDate = df.format(items.get(position).dueDate);
         }
 
-        startActivityForResult(i, REQUEST_CODE); // brings up the second activity
+        String priority =  items.get(position).priority;
+
+        FragmentManager fm = getSupportFragmentManager();
+        EditItemFragment editItemDialog = EditItemFragment.newInstance(itemName, itemDueDate,
+                priority, position, itemsAdapter);
+
+        editItemDialog.show(fm, "fragment_edit_item");
     }
 
     private void readItemsFromDB() {
@@ -101,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
         itemsAdapter.add(newItem);
         etNewItem.setText("");
     }
-
 
     // ActivityOne.java, time to handle the result of the sub-activity
     @Override

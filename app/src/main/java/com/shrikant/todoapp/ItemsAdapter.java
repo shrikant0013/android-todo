@@ -31,7 +31,7 @@ public class ItemsAdapter extends ArrayAdapter<Item> {
         // Lookup view for data population
         TextView tvName = (TextView) convertView.findViewById(R.id.tvItemName);
         TextView tvDueDate = (TextView) convertView.findViewById(R.id.tvDueDate);
-
+        TextView tvPriority = (TextView) convertView.findViewById(R.id.tvPriority);
 
         // Populate the data into the template view using the data object
         tvName.setText(item.name);
@@ -44,6 +44,8 @@ public class ItemsAdapter extends ArrayAdapter<Item> {
             tvDueDate.setText("");
             tvDueDate.setHint("Don't forget to set due date");
         }
+
+        tvPriority.setText(item.priority);
 
         Log.i("adapter", tvDueDate.getText().toString());
 

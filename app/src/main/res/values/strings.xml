@@ -2,7 +2,7 @@
     <string name="app_name">TodoApp</string>
     <string name="additem_text">AddItem</string>
     <string name="newitem_hint_text">Enter new item...</string>
-    <string name="edit_item_label">Edit Item Below:</string>
+    <string name="edit_item_label">Edit item below</string>
     <string name="btn_save_item_label">Save</string>
     <string name="title_activity_edit_item_extended">Edit Item</string>
     <string name="tv_task_name_label">Task Name</string>
@@ -13,4 +13,14 @@
     <string name="duedate">Due Date</string>
     <string name="duedatemainview">due</string>
     <string name="itemnamemainview">item</string>
+    <string name="dgfragcancel">Cancel</string>
+    <string name="tvduedatefrag">Due Date</string>
+    <string name="tvpriorityfrag">Priority</string>
+    <string name="tvpriorityitem">Priority</string>
+
+    <string-array name="prioity_array">
+        <item>High</item>
+        <item>Medium</item>
+        <item>Low</item>
+    </string-array>
 </resources>

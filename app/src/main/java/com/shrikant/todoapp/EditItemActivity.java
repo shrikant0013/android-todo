@@ -2,7 +2,6 @@ package com.shrikant.todoapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -57,9 +56,9 @@ public class EditItemActivity extends AppCompatActivity {
     }
 
 
-    public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "datePicker");
-    }
+//    public void showDatePickerDialog(View v) {
+//        DialogFragment newFragment = new DatePickerFragment();
+//        newFragment.show(getSupportFragmentManager(), "datePicker");
+//    }
 
 }

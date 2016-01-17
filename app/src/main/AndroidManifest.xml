@@ -26,10 +26,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".EditItemActivity" />
-        <activity
-            android:name=".EditItemExtended"
-            android:label="@string/title_activity_edit_item_extended"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

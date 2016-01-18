@@ -3,6 +3,10 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
     android:weightSum="1">
 
     <TextView
@@ -22,24 +26,6 @@
         android:layout_below="@+id/textViewf"
         android:layout_alignParentStart="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_save_item_label"
-        android:id="@+id/btnSaveEditf"
-        android:layout_marginBottom="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="87dp"
-        android:layout_height="wrap_content"
-        android:text="@string/dgfragcancel"
-        android:id="@+id/btnCancelEditf"
-        android:layout_alignTop="@+id/btnSaveEditf"
-        android:layout_alignParentEnd="true" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -47,39 +33,57 @@
         android:id="@+id/tvDueDateFrag"
         android:layout_below="@+id/etEditItemf"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="40dp"
         android:layout_alignEnd="@+id/textViewf"
         android:textStyle="bold"
         android:textSize="@dimen/abc_text_size_large_material" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:id="@+id/etDueDateFrag"
-        android:layout_marginTop="36dp"
         android:onClick="showDatePickerDialog"
+        android:layout_alignTop="@+id/tvDueDateFrag"
         android:layout_below="@+id/tvDueDateFrag"
-        android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/etEditItemf" />
+        android:layout_marginTop="30dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/tvpriorityfrag"
         android:id="@+id/tvPriorityFrag"
         android:textStyle="bold"
         android:textSize="@dimen/abc_text_size_large_material"
-        android:layout_centerVertical="true"
-        android:layout_alignParentStart="true" />
+        android:layout_below="@+id/etDueDateFrag"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="40dp" />
 
     <Spinner
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:id="@+id/spinPriorityFrag"
+        android:spinnerMode="dropdown"
+        android:layout_toEndOf="@+id/tvPriorityFrag"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/tvPriorityFrag"
+        android:layout_alignParentStart="true"/>
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="87dp"
+        android:layout_height="wrap_content"
+        android:text="@string/dgfragcancel"
+        android:id="@+id/btnCancelEditf"
+        android:layout_alignBaseline="@+id/btnSaveEditf"
+        android:layout_alignBottom="@+id/btnSaveEditf"
+        android:layout_alignParentStart="true" />
+
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/spinPriorityFrag"
-        android:layout_below="@+id/tvPriorityFrag"
-        android:layout_marginTop="36dp"
-        android:layout_alignEnd="@+id/etDueDateFrag"
-        android:spinnerMode="dropdown" />
+        android:text="@string/btn_save_item_label"
+        android:id="@+id/btnSaveEditf"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

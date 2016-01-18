@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -151,17 +150,18 @@ public class EditItemFragment extends DialogFragment implements AdapterView.OnIt
         });
     }
 
-    @Override
-    public void onResume() {
-        // Get existing layout params for the window
-        ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
-        // Assign window properties to fill the parent
-        params.width = WindowManager.LayoutParams.MATCH_PARENT;
-        params.height = WindowManager.LayoutParams.MATCH_PARENT;
-        getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
-        // Call super onResume after sizing
-        super.onResume();
-    }
+//    //This is for full screen edit dialog box
+//    @Override
+//    public void onResume() {
+//        // Get existing layout params for the window
+//        ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
+//        // Assign window properties to fill the parent
+//        params.width = WindowManager.LayoutParams.MATCH_PARENT;
+//        params.height = WindowManager.LayoutParams.MATCH_PARENT;
+//        getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
+//        // Call super onResume after sizing
+//        super.onResume();
+//    }
 
     public void fromDate(String inputText) {
         etDueDateFrag.setText(inputText);

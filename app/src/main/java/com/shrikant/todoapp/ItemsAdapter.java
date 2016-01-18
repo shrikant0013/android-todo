@@ -11,6 +11,8 @@ import android.widget.TextView;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Shrikant Pandhare on 1/16/16.
@@ -18,6 +20,13 @@ import java.util.ArrayList;
 public class ItemsAdapter extends ArrayAdapter<Item> {
     public ItemsAdapter(Context context, ArrayList<Item> items) {
         super(context, 0, items);
+    }
+
+    Map<String, Integer> priorityColorLookUp = new HashMap<>();
+    {
+        priorityColorLookUp.put("High", 0xFFFF0000);
+        priorityColorLookUp.put("Medium", 0xFF0000FF);
+        priorityColorLookUp.put("Low", 0xFF888888);
     }
 
     @Override
@@ -42,10 +51,12 @@ public class ItemsAdapter extends ArrayAdapter<Item> {
             tvDueDate.setText(strDueDate);
         } else {
             tvDueDate.setText("");
-            tvDueDate.setHint("Don't forget to set due date");
+            tvDueDate.setHint("set due date");
         }
 
         tvPriority.setText(item.priority);
+        if (priorityColorLookUp.containsKey(item.priority))
+            tvPriority.setTextColor(priorityColorLookUp.get(item.priority));
 
         Log.i("adapter", tvDueDate.getText().toString());
 
